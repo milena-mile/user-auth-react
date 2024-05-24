@@ -35,6 +35,10 @@
         width: 100%;
         gap: 30px;
 
+        @media (max-width: 800px) {
+            grid-template: auto / repeat(3, calc((100% - 60px) / 3));
+        }
+
         @media (max-width: 600px) {
             grid-template: auto / repeat(2, calc((100% - 30px) / 2));
         }

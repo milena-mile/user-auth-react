@@ -9,7 +9,7 @@
     border-radius: 30px;
     background-color: #fff;
 
-    @media (max-width: 600px) {
+    @media (max-width: 730px) {
         display: flex;
         flex-direction: column;
         margin: 30px auto;
@@ -18,6 +18,11 @@
     &-img {
         grid-column: 1;
         grid-row: 1 / 4;
+
+        @media (max-width: 730px) and (min-width: 550px) {
+            width: 50%;
+            margin: 0 auto;
+        }
 
         img {
             width: 100%;
@@ -42,11 +47,6 @@
 .b-marvel_comics {
     grid-column: 2;
     grid-row: 3;
-
-    @media (max-width: 600px) {
-        grid-column: 1;
-        grid-row: 4;
-    }
 
     &-title {
         font-size: clamp(23px, 1.7vw, 30px);
