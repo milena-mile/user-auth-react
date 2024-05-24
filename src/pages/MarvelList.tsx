@@ -15,9 +15,12 @@ const MarvelList = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const pageHash = +location.hash.slice(1);
+    const getPageFromHash = () => {
+        const hash = location.hash.slice(1);
+        return hash ? +hash : 1;
+    };
 
-    const [page, setPage] = useState(pageHash == 0 ? 1 : pageHash);
+    const [page, setPage] = useState(getPageFromHash());
     const [offset, setOffset] = useState((page - 1) * 20);
 
     useEffect(() => {
@@ -25,7 +28,11 @@ const MarvelList = () => {
             ...prevState,
             state: "loading"
         }))
-        navigate(`${location.pathname}#${page}`);
+
+        if (page !== getPageFromHash()) {
+            navigate(`${location.pathname}#${page}`, { replace: true });
+        }
+
         async function getData() {
             requestAPI(`https://gateway.marvel.com:443/v1/public/characters?limit=20&offset=${offset}&${APIkey}`)
                 .then(data => {
@@ -35,6 +42,12 @@ const MarvelList = () => {
         }
         getData();
     }, [page]);
+
+    useEffect(() => {
+        const newPage = getPageFromHash();
+        setPage(newPage);
+        setOffset((newPage - 1) * 20);
+    }, [location.hash]);
 
     const handlePage = (page: number) => {
         setPage(page);
