@@ -7,7 +7,7 @@ const Form = (props: {form: string}) => {
     return (
         <section className="b-form">
             <div className="b-form_logo-wrapper">
-                <img src={`${import.meta.env.VITE_PUBLIC_URL}images/logo.svg`} alt="" className="b-form_logo" />
+                <img src="/user-auth-react/images/logo.svg" alt="" className="b-form_logo" />
             </div>
             <div className="b-form_wrapper">
                 <span className="b-form_desc">Find your favourite character!</span>
@@ -17,7 +17,7 @@ const Form = (props: {form: string}) => {
                 </div>
             </div>
             <div className="b-form_image">
-                <img src={`${import.meta.env.VITE_PUBLIC_URL}images/marvel.svg`} alt="library"/>
+                <img src="/user-auth-react/images/marvel.svg" alt="library"/>
             </div>
         </section>
     )
