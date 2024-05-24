@@ -2,6 +2,7 @@ import { MarvelInfo } from "../components/Marvel/types";
 
 type NetworkFailedState = {
     state: "failed";
+    response: string | undefined
 };
 type NetworkLoadingState = {
     state: "loading";

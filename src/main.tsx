@@ -10,7 +10,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   
   <React.StrictMode>
     <LogInProvider>
-      <HashRouter basename={import.meta.env.VITE_PUBLIC_URLL}>
+      <HashRouter basename={import.meta.env.VITE_PUBLIC_URL}>
         <App />
       </HashRouter>
     </LogInProvider>

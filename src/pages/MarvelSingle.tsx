@@ -5,6 +5,7 @@ import requestAPI from "../services/request";
 import MarvelSingleItem from "../components/Marvel/MarvelSingleItem/MarvelSingleItem";
 import Error from "../components/Error/Error";
 import Loading from "../components/Loading/Loading";
+import NotFound from "../components/NotFound/NotFound";
 
 const APIkey = "apikey=fc65849a30741fefecd10fe2a23f336a";
 
@@ -27,7 +28,8 @@ const SingleBook = () => {
     return (
         <>
             {marvel.state === "loading" && <Loading/>}
-            {marvel.state === "failed" && <Error/>}
+            {(marvel.state === "failed" && marvel.response === "not found") && <NotFound />}
+            {(marvel.state === "failed" && marvel.response !== "not found") && <Error/>}
             {marvel.state === "success" && <MarvelSingleItem data={marvel}/>}
         </>
     )
