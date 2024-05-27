@@ -3,17 +3,21 @@ import { Link } from "react-router-dom";
 import { auth } from "../../services/firebase";
 import { FirebaseError } from 'firebase/app';
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { handleRememberMe } from "../../services/rememberMe";
 import Input from "./Input/Input";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [rememberMe, setRememberMe] = useState(false);
+
   const [message, setMessage] = useState("");
 
   const handleRegister = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      handleRememberMe(userCredential.user.uid, email, password, rememberMe);
       setMessage("User registered successfully!");
 
     } catch (error) {
@@ -42,6 +46,11 @@ const SignUp = () => {
         type={"text"}
         value={password}
         onChange={(e) => setPassword(e.target.value)} />
+      <Input 
+        label={"Remember me"} 
+        type={"checkbox"} 
+        checked={rememberMe}
+        onChange={(e) => setRememberMe(e.target.checked)}/>
       <button className="b-button--dark" onClick={handleRegister}>Sign Up</button>
       <Link to="/signin" className="b-button">Login</Link>
       {message !== "" && <span className="b-submit-message">{message}</span>}

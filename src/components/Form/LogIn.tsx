@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../../services/firebase";
 import { FirebaseError } from 'firebase/app';
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../services/firebase";
 import { useLogInContext } from "../../context/logInContext";
+import { handleAuthOnload, handleRememberMe } from "../../services/rememberMe";
 import Input from "./Input/Input";
 
 
@@ -13,15 +14,23 @@ const LogIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [rememberMe, setRememberMe] = useState(false);
+
     const [message, setMessage] = useState("");
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        handleAuthOnload(setEmail, setPassword, setRememberMe);
+    }, [])
+
     const handleLogin = async () => {
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            handleRememberMe(userCredential.user.uid, email, password, rememberMe);
             setMessage("Logged in successfully!");
             setLogged(true);
+
             localStorage.setItem('logged', 'true');
             navigate("/list");
 
@@ -51,6 +60,11 @@ const LogIn = () => {
                 type={"password"} 
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)}/>
+            <Input 
+                label={"Remember me"} 
+                type={"checkbox"} 
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}/>
             <button className="b-button--dark" onClick={handleLogin}>Login</button>
             <Link to="/signup" className="b-button">Sign Up</Link>
             {message !== "" && <span className="b-submit-message">{message}</span>}
