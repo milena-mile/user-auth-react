@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../../services/firebase";
 import { FirebaseError } from 'firebase/app';
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../services/firebase";
 import { useLogInContext } from "../../context/logInContext";
 import { handleAuthOnload, handleRememberMe } from "../../services/rememberMe";
 import Input from "./Input/Input";
+import ResetPassword from "./ResetPassword";
 
 
 const LogIn = () => {
@@ -15,13 +16,14 @@ const LogIn = () => {
     const [password, setPassword] = useState("");
 
     const [rememberMe, setRememberMe] = useState(false);
+    const [reset, setReset] = useState(false);
 
     const [message, setMessage] = useState("");
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        handleAuthOnload(setEmail, setPassword, setRememberMe);
+        handleAuthOnload({ setEmail, setPassword, setRememberMe });
     }, [])
 
     const handleLogin = async () => {
@@ -65,9 +67,11 @@ const LogIn = () => {
                 type={"checkbox"} 
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}/>
+            <button className="b-login_forgot" onClick={() => setReset(true)}>Forgot password?</button>
             <button className="b-button--dark" onClick={handleLogin}>Login</button>
             <Link to="/signup" className="b-button">Sign Up</Link>
             {message !== "" && <span className="b-submit-message">{message}</span>}
+            {reset && <ResetPassword setReset={setReset} reset={reset}/>}
         </div>
     )
 }

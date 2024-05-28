@@ -1,6 +1,7 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, firestore } from "./firebase";
 import { deleteDoc, getDoc, setDoc, doc } from "firebase/firestore";
+import { AuthOnload } from "./types";
 
 
 const handleRememberMe = async (id: string, email: string, password: string, rememberMe: boolean) => {
@@ -30,11 +31,7 @@ const getUserData = async (userId: string) => {
       }
 };
 
-type SetEmail = (email: string) => void;
-type SetPassword = (password: string) => void;
-type SetRememberMe = (rememberMe: boolean) => void;
-
-const handleAuthOnload = (setEmail: SetEmail, setPassword: SetPassword, setRememberMe: SetRememberMe) => {
+const handleAuthOnload = ({ setEmail, setPassword, setRememberMe }: AuthOnload) => {
     return onAuthStateChanged(auth, (user) => {
         if (user) {
         const userId = user.uid;
