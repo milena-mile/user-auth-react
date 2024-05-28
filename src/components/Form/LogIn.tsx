@@ -71,7 +71,7 @@ const LogIn = () => {
             <button className="b-button--dark" onClick={handleLogin}>Login</button>
             <Link to="/signup" className="b-button">Sign Up</Link>
             {message !== "" && <span className="b-submit-message">{message}</span>}
-            {reset && <ResetPassword setReset={setReset} reset={reset}/>}
+            {reset && <ResetPassword setReset={setReset}/>}
         </div>
     )
 }

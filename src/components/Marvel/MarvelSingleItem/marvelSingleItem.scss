@@ -1,18 +1,25 @@
 .b-marvel_single {
-    display: grid;
-    grid-template: auto / calc(40% - 20px) calc(60% - 20px);
-    align-items: flex-start;
-    gap: 20px 40px;
-    width: min(90%, 1000px);
     margin: 0 auto;
-    padding: 40px;
-    border-radius: 30px;
-    background-color: #fff;
 
-    @media (max-width: 730px) {
-        display: flex;
-        flex-direction: column;
-        margin: 30px auto;
+    &-wrap {
+        display: grid;
+        grid-template: auto / calc(40% - 20px) calc(60% - 20px);
+        align-items: flex-start;
+        gap: 20px 40px;
+        width: min(90%, 1000px);
+        margin: 0 auto;
+        padding: 40px;
+        border-radius: 30px;
+        background-color: #fff;
+    
+        @media (max-width: 730px) {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (max-width: 500px) {
+            margin-top: 40px;
+        }
     }
 
     &-img {
@@ -41,6 +48,15 @@
     &-desc {
         grid-column: 2;
         grid-row: 2;
+    }
+
+    .b-button {
+        margin: 30px auto 0;
+        padding: 10px 20px;
+
+        @media (max-width: 500px) {
+            margin-bottom: 40px;
+        }
     }
 }
 
