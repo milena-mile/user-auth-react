@@ -8,6 +8,7 @@ import NotFound from './components/NotFound/NotFound';
 
 function App() {
   const {logged} = useLogInContext();
+  console.log(logged);
 
   return (
     <Routes>

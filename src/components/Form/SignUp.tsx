@@ -34,11 +34,13 @@ const SignUp: React.FC<ISignUp> = ({ emailSignUp, passwordSignUp, setEmailSignUp
       <Input
         label={"Email"}
         type={"email"}
+        name={"email"}
         value={emailSignUp}
         onChange={(e) => setEmailSignUp(e.target.value)} />
       <Input
         label={"Password"}
         type={"text"}
+        name={"password"}
         value={passwordSignUp}
         onChange={(e) => setPasswordSignUp(e.target.value)} />
       <button className="b-button--dark" onClick={handleRegister}>Sign Up</button>

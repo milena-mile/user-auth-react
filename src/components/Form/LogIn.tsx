@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../services/firebase";
 import { FirebaseError } from 'firebase/app';
@@ -19,7 +19,9 @@ const LogIn: React.FC<ILogIn> = ({ emailLogIn, passwordLogIn, setEmailLogIn, set
 
     const navigate = useNavigate();
 
-    const handleLogin = async () => {
+    const handleLogin = async (event: FormEvent) => {
+        event.preventDefault();
+
         try {
             await signInWithEmailAndPassword(auth, emailLogIn, passwordLogIn);
             setMessage("Logged in successfully!");
@@ -47,16 +49,21 @@ const LogIn: React.FC<ILogIn> = ({ emailLogIn, passwordLogIn, setEmailLogIn, set
             <Input 
                 label={"Email"} 
                 type={"email"} 
+                name={"email"}
                 value={emailLogIn} 
+                autoComplete={"email"}
                 onChange={(e) => setEmailLogIn(e.target.value)}/>
             <Input 
                 label={"Password"} 
                 type={"password"} 
+                name={"password"}
                 value={passwordLogIn} 
+                autoComplete={"current-password"}
                 onChange={(e) => setPasswordLogIn(e.target.value)}/>
             <Input 
                 label={"Remember me"} 
                 type={"checkbox"} 
+                name={"remember"}
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}/>
             <button className="b-login_forgot" onClick={() => setReset(true)}>Forgot password?</button>
