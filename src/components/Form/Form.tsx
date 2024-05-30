@@ -1,8 +1,13 @@
+import "./form.scss";
+import { useState } from "react";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
-import "./form.scss";
 
 const Form = (props: {form: string}) => {
+    const [emailSignUp, setEmailSignUp] = useState("");
+    const [passwordSignUp, setPasswordSignUp] = useState("");
+    const [emailLogIn, setEmailLogIn] = useState("");
+    const [passwordLogIn, setPasswordLogIn] = useState("");
 
     return (
         <section className="b-form">
@@ -12,8 +17,16 @@ const Form = (props: {form: string}) => {
             <div className="b-form_wrapper">
                 <span className="b-form_desc">Find your favourite character!</span>
                 <div className="b-form_form">
-                    {props.form === "login" && <LogIn/>}
-                    {props.form === "signup" && <SignUp/>}
+                    {props.form === "login" && 
+                    <LogIn setEmailLogIn={setEmailLogIn} 
+                        setPasswordLogIn={setPasswordLogIn}
+                        emailLogIn={emailLogIn} 
+                        passwordLogIn={passwordLogIn}/>}
+                    {props.form === "signup" && 
+                    <SignUp setEmailSignUp={setEmailSignUp} 
+                        setPasswordSignUp={setPasswordSignUp}
+                        emailSignUp={emailSignUp}
+                        passwordSignUp={passwordSignUp}/>}
                 </div>
             </div>
             <div className="b-form_image">

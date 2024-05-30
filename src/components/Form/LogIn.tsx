@@ -1,19 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../services/firebase";
 import { FirebaseError } from 'firebase/app';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useLogInContext } from "../../context/logInContext";
-import { handleAuthOnload, handleRememberMe } from "../../services/rememberMe";
+import { handleRememberMe } from "../../services/rememberMe";
+import { ILogIn } from "./types";
 import Input from "./Input/Input";
 import ResetPassword from "./ResetPassword";
 
 
-const LogIn = () => {
+const LogIn: React.FC<ILogIn> = ({ emailLogIn, passwordLogIn, setEmailLogIn, setPasswordLogIn }) => {
     const {setLogged} = useLogInContext();
-
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
 
     const [rememberMe, setRememberMe] = useState(false);
     const [reset, setReset] = useState(false);
@@ -22,14 +20,10 @@ const LogIn = () => {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        handleAuthOnload({ setEmail, setPassword, setRememberMe });
-    }, [])
-
     const handleLogin = async () => {
         try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            handleRememberMe(userCredential.user.uid, email, password, rememberMe);
+            const userCredential = await signInWithEmailAndPassword(auth, emailLogIn, passwordLogIn);
+            handleRememberMe(userCredential.user.uid, emailLogIn, passwordLogIn, rememberMe);
             setMessage("Logged in successfully!");
             setLogged(true);
 
@@ -55,13 +49,13 @@ const LogIn = () => {
             <Input 
                 label={"Email"} 
                 type={"email"} 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)}/>
+                value={emailLogIn} 
+                onChange={(e) => setEmailLogIn(e.target.value)}/>
             <Input 
                 label={"Password"} 
                 type={"password"} 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)}/>
+                value={passwordLogIn} 
+                onChange={(e) => setPasswordLogIn(e.target.value)}/>
             <Input 
                 label={"Remember me"} 
                 type={"checkbox"} 
