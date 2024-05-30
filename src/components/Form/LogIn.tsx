@@ -4,7 +4,6 @@ import { auth } from "../../services/firebase";
 import { FirebaseError } from 'firebase/app';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useLogInContext } from "../../context/logInContext";
-import { handleRememberMe } from "../../services/rememberMe";
 import { ILogIn } from "./types";
 import Input from "./Input/Input";
 import ResetPassword from "./ResetPassword";
@@ -22,8 +21,7 @@ const LogIn: React.FC<ILogIn> = ({ emailLogIn, passwordLogIn, setEmailLogIn, set
 
     const handleLogin = async () => {
         try {
-            const userCredential = await signInWithEmailAndPassword(auth, emailLogIn, passwordLogIn);
-            handleRememberMe(userCredential.user.uid, emailLogIn, passwordLogIn, rememberMe);
+            await signInWithEmailAndPassword(auth, emailLogIn, passwordLogIn);
             setMessage("Logged in successfully!");
             setLogged(true);
 

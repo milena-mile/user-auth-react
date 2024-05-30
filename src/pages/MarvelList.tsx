@@ -6,6 +6,7 @@ import { NetworkState, NetworkSuccessState } from "./types";
 import Error from "../components/Error/Error";
 import Loading from "../components/Loading/Loading";
 import MarvelListItem from "../components/Marvel/MarvelListItem/MarvelListItem";
+import LogOut from "../components/LogOut/LogOut";
 
 const APIkey = "apikey=fc65849a30741fefecd10fe2a23f336a";
 
@@ -65,6 +66,7 @@ const MarvelList = () => {
 
     return (
         <div className="b-marvel">
+            <LogOut />
             <h1 className="b-marvel_title">List of characters</h1>
             <hr/>
             {marvel.state === "loading" && <Loading/>}
