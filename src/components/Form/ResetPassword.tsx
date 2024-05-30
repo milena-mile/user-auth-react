@@ -29,6 +29,7 @@ const ResetPassword = (props: {setReset: React.Dispatch<React.SetStateAction<boo
                         label={"Email"}
                         type={"email"}
                         value={email}
+                        name={"reset"}
                         onChange={(e) => setEmail(e.target.value)}
                         required />
                     <button type="submit" className="b-button">Send Reset Email</button>

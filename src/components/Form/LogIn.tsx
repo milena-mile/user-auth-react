@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../services/firebase";
 import { FirebaseError } from 'firebase/app';
@@ -19,6 +19,24 @@ const LogIn: React.FC<ILogIn> = ({ emailLogIn, passwordLogIn, setEmailLogIn, set
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const loggedIn = localStorage.getItem('logged');
+        if (loggedIn === 'true') {
+            setLogged(true);
+            navigate("/list");
+        }
+    }, []);
+
+    useEffect(() => {
+        window.addEventListener('beforeunload', () => {
+            if (rememberMe) {
+                localStorage.setItem('logged', 'true');
+            } else {
+                localStorage.removeItem('logged');
+            }
+        });
+    }, [rememberMe])
+
     const handleLogin = async (event: FormEvent) => {
         event.preventDefault();
 
@@ -27,7 +45,10 @@ const LogIn: React.FC<ILogIn> = ({ emailLogIn, passwordLogIn, setEmailLogIn, set
             setMessage("Logged in successfully!");
             setLogged(true);
 
-            localStorage.setItem('logged', 'true');
+            if (rememberMe) {
+                localStorage.setItem('loggedIn', 'true');
+            }
+            
             navigate("/list");
 
         } catch(error) {
