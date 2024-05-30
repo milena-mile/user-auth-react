@@ -1,32 +1,27 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { auth } from "../../services/firebase";
 import { FirebaseError } from 'firebase/app';
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { handleRememberMe } from "../../services/rememberMe";
+import { ISignUp } from "./types";
 import Input from "./Input/Input";
 
-const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const SignUp: React.FC<ISignUp> = ({ emailSignUp, passwordSignUp, setEmailSignUp, setPasswordSignUp }) => {
 
   const [rememberMe, setRememberMe] = useState(false);
-
   const [message, setMessage] = useState("");
 
   const handleRegister = async () => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      handleRememberMe(userCredential.user.uid, email, password, rememberMe);
       setMessage("User registered successfully!");
 
     } catch (error) {
       if (error instanceof FirebaseError) {
+
         if (error.code === 'auth/invalid-email') {
           setMessage("Invalid email");
         } else {
           setMessage(`Error: ${error.message}`);
         }
+        
       } else {
         setMessage("Unknown error occurred");
       }
@@ -39,13 +34,13 @@ const SignUp = () => {
       <Input
         label={"Email"}
         type={"email"}
-        value={email}
-        onChange={(e) => setEmail(e.target.value)} />
+        value={emailSignUp}
+        onChange={(e) => setEmailSignUp(e.target.value)} />
       <Input
         label={"Password"}
         type={"text"}
-        value={password}
-        onChange={(e) => setPassword(e.target.value)} />
+        value={passwordSignUp}
+        onChange={(e) => setPasswordSignUp(e.target.value)} />
       <Input 
         label={"Remember me"} 
         type={"checkbox"} 
