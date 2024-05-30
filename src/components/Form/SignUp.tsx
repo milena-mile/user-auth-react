@@ -6,7 +6,6 @@ import Input from "./Input/Input";
 
 const SignUp: React.FC<ISignUp> = ({ emailSignUp, passwordSignUp, setEmailSignUp, setPasswordSignUp }) => {
 
-  const [rememberMe, setRememberMe] = useState(false);
   const [message, setMessage] = useState("");
 
   const handleRegister = async () => {
@@ -34,18 +33,15 @@ const SignUp: React.FC<ISignUp> = ({ emailSignUp, passwordSignUp, setEmailSignUp
       <Input
         label={"Email"}
         type={"email"}
+        name={"email"}
         value={emailSignUp}
         onChange={(e) => setEmailSignUp(e.target.value)} />
       <Input
         label={"Password"}
         type={"text"}
+        name={"password"}
         value={passwordSignUp}
         onChange={(e) => setPasswordSignUp(e.target.value)} />
-      <Input 
-        label={"Remember me"} 
-        type={"checkbox"} 
-        checked={rememberMe}
-        onChange={(e) => setRememberMe(e.target.checked)}/>
       <button className="b-button--dark" onClick={handleRegister}>Sign Up</button>
       <Link to="/signin" className="b-button">Login</Link>
       {message !== "" && <span className="b-submit-message">{message}</span>}

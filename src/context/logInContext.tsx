@@ -6,7 +6,7 @@ interface ContextLogin {
 }
 
 const LogInContext = createContext<ContextLogin>({
-    logged: !!localStorage.getItem('logged'),
+    logged: false,
     setLogged: () => {}
 });
 

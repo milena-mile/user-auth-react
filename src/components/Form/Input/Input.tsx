@@ -1,7 +1,7 @@
 import "./input.scss";
 import { IInput } from "./types";
 
-const Input: React.FC<IInput> = ({checked, label, onChange, required, type, value}) => {
+const Input: React.FC<IInput> = ({checked, label, onChange, autoComplete, required, type, value}) => {
     
     return (
         <label className={`b-input ${type}`}>
@@ -10,6 +10,7 @@ const Input: React.FC<IInput> = ({checked, label, onChange, required, type, valu
                 className={`b-input_input ${type}`}
                 type={type} 
                 value={value}  
+                autoComplete={autoComplete}
                 onChange={onChange} 
                 checked={checked}
                 required={required}/>
