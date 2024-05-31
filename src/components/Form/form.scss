@@ -199,6 +199,11 @@
         }
     }
 
+    .b-button:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+
     &_close {
         position: absolute;
         right: -30px;
@@ -210,6 +215,11 @@
             right: -10px;
             top: -50px;
         }
+    }
+
+    &_message {
+        display: inline-block;
+        margin-top: 5px;
     }
 }
 
