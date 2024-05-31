@@ -42,13 +42,13 @@ const LogIn: React.FC<ILogIn> = ({ emailLogIn, passwordLogIn, setEmailLogIn, set
 
         } catch(error) {
             if (error instanceof FirebaseError) {
-                if (error.code === 'auth/invalid-email') {
-                  setMessage("Invalid email");
+                if (error.code === 'auth/invalid-email' || error.code === "auth/invalid-credential") {
+                    setMessage("Invalid credential");
                 } else {
-                  setMessage(`Error: ${error.message}`);
+                    setMessage(`Error: ${error.message}`);
                 }
               } else {
-                setMessage("Unknown error occurred");
+                    setMessage("Unknown error occurred");
               }
         }
     }
