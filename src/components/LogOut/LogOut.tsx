@@ -11,6 +11,7 @@ const LogOut = () => {
 
         auth.signOut().then(() => {
           setLogged(false);
+          localStorage.removeItem('logged');
           navigate("/signin");
 
         }).catch((error) => {

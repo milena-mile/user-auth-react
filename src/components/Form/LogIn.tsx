@@ -4,6 +4,7 @@ import { auth } from "../../services/firebase";
 import { FirebaseError } from 'firebase/app';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useLogInContext } from "../../context/logInContext";
+import { handleAuthOnload, handleRememberMe } from "../../services/rememberMe";
 import { ILogIn } from "./types";
 import Input from "./Input/Input";
 import ResetPassword from "./ResetPassword";
@@ -20,35 +21,23 @@ const LogIn: React.FC<ILogIn> = ({ emailLogIn, passwordLogIn, setEmailLogIn, set
     const navigate = useNavigate();
 
     useEffect(() => {
-        const loggedIn = localStorage.getItem('logged');
-        if (loggedIn === 'true') {
-            setLogged(true);
-            navigate("/list");
-        }
-    }, []);
+        handleAuthOnload(autoLogin);
+    }, [])
 
-    useEffect(() => {
-        window.addEventListener('beforeunload', () => {
-            if (rememberMe) {
-                localStorage.setItem('logged', 'true');
-            } else {
-                localStorage.removeItem('logged');
-            }
-        });
-    }, [rememberMe])
+    const autoLogin = () => {
+        navigate("/list");
+    }
 
     const handleLogin = async (event: FormEvent) => {
         event.preventDefault();
 
         try {
-            await signInWithEmailAndPassword(auth, emailLogIn, passwordLogIn);
+            const userCredential = await signInWithEmailAndPassword(auth, emailLogIn, passwordLogIn);
+            handleRememberMe(userCredential.user.uid, emailLogIn, rememberMe);
+
             setMessage("Logged in successfully!");
             setLogged(true);
-
-            if (rememberMe) {
-                localStorage.setItem('loggedIn', 'true');
-            }
-            
+            localStorage.setItem('logged', 'true');
             navigate("/list");
 
         } catch(error) {
@@ -70,15 +59,15 @@ const LogIn: React.FC<ILogIn> = ({ emailLogIn, passwordLogIn, setEmailLogIn, set
             <Input 
                 label={"Email"} 
                 type={"email"} 
-                name={"email"}
                 value={emailLogIn} 
+                name={"email"}
                 autoComplete={"email"}
                 onChange={(e) => setEmailLogIn(e.target.value)}/>
             <Input 
                 label={"Password"} 
                 type={"password"} 
-                name={"password"}
                 value={passwordLogIn} 
+                name={"password"}
                 autoComplete={"current-password"}
                 onChange={(e) => setPasswordLogIn(e.target.value)}/>
             <Input 
