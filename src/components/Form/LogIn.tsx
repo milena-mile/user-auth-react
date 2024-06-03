@@ -9,7 +9,6 @@ import { ILogIn } from "./types";
 import Input from "./Input/Input";
 import ResetPassword from "./ResetPassword";
 
-
 const LogIn: React.FC<ILogIn> = ({ emailLogIn, passwordLogIn, setEmailLogIn, setPasswordLogIn }) => {
     const {setLogged} = useLogInContext();
 
@@ -36,9 +35,9 @@ const LogIn: React.FC<ILogIn> = ({ emailLogIn, passwordLogIn, setEmailLogIn, set
             handleRememberMe(userCredential.user.uid, emailLogIn, rememberMe);
 
             setMessage("Logged in successfully!");
+            navigate("/list");
             setLogged(true);
             localStorage.setItem('logged', 'true');
-            navigate("/list");
 
         } catch(error) {
             if (error instanceof FirebaseError) {
