@@ -20,7 +20,8 @@ const LogIn: React.FC<ILogIn> = ({ emailLogIn, passwordLogIn, setEmailLogIn, set
     const navigate = useNavigate();
 
     useEffect(() => {
-        handleAuthOnload(autoLogin);
+        setLogged(false);
+        handleAuthOnload(autoLogin, setLogged);
     }, [])
 
     const autoLogin = () => {

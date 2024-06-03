@@ -1,6 +1,7 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, firestore } from "./firebase";
 import { deleteDoc, getDoc, setDoc, doc } from "firebase/firestore";
+import { useLogInContext } from "../context/logInContext";
 
 
 const handleRememberMe = async (id: string, email: string, rememberMe: boolean) => {
@@ -13,32 +14,31 @@ const handleRememberMe = async (id: string, email: string, rememberMe: boolean) 
 
 const getUserData = async (userId: string) => {
     try {
-        const userDocRef = doc(firestore, "Users", userId);
-        const userDocSnap = await getDoc(userDocRef);
+        const userDocSnap = await getDoc(doc(firestore, "Users", userId));
 
         if (userDocSnap.exists()) {
           const userData = userDocSnap.data();
           return userData;
-        } 
+        }
 
       } catch (error) {
         console.error("Error retrieving user data:", error);
       }
 };
 
-const handleAuthOnload = async (autoLogIn: () => void) => {
-    localStorage.removeItem('logged');
-    
+const handleAuthOnload = async (autoLogIn: () => void, setLogged: React.Dispatch<React.SetStateAction<boolean>>) => {
+
     return onAuthStateChanged(auth, (user) => {
         if (user) {
             const userId = user.uid;
             getUserData(userId).then(userData => {
                 if (userData) {
                     localStorage.setItem('logged', 'true');
+                    setLogged(true);
                     autoLogIn();
                 }
             });
-        }
+        } 
     })
 }
 
