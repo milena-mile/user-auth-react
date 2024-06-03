@@ -12,8 +12,12 @@ const LogInContext = createContext<ContextLogin>({
 
 const useLogInContext = () => useContext(LogInContext);
 
+const handleLogggedIn = () => {
+    return !!localStorage.getItem('logged');
+}
+
 const LogInProvider = ({ children }: { children: ReactNode }) => {
-    const [logged, setLogged] = useState(!!localStorage.getItem('logged'));
+    const [logged, setLogged] = useState(handleLogggedIn);
     
     return (
         <LogInContext.Provider value={{logged, setLogged}}>

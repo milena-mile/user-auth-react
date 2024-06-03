@@ -1,7 +1,8 @@
-interface AuthOnload {
-    setEmail: React.Dispatch<React.SetStateAction<string>>, 
-    setPassword: React.Dispatch<React.SetStateAction<string>>, 
-    setRememberMe: React.Dispatch<React.SetStateAction<boolean>>
+import { ReactNode } from "react";
+
+interface ProtectedRouteProps {
+    logged: boolean;
+    children: ReactNode;
 }
 
-export type {AuthOnload};
+export type { ProtectedRouteProps };

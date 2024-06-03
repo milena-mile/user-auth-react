@@ -9,12 +9,13 @@ const LogOut = () => {
 
     const handleLogOut = () => {
         auth.signOut().then(() => {
-            console.log('User signed out successfully.');
-          }).catch((error) => {
-            console.error('Error signing out:', error);
-          });
-        setLogged(false);
-        navigate("/signin");
+          setLogged(false);
+          localStorage.removeItem('logged');
+          navigate("/signin");
+
+        }).catch((error) => {
+          console.error('Error signing out:', error);
+        });
     }
 
     return (

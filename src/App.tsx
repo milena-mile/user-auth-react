@@ -5,10 +5,10 @@ import FormPage from './pages/FormPage';
 import MarvelList from './pages/MarvelList';
 import SingleMarvel from './pages/MarvelSingle';
 import NotFound from './components/NotFound/NotFound';
+import ProtectedRoute from './services/protectingRoute';
 
 function App() {
   const {logged} = useLogInContext();
-  console.log(logged);
 
   return (
     <Routes>
@@ -16,19 +16,15 @@ function App() {
       <Route path="/signin" element={<FormPage form={"login"}/>} />
       <Route path="/signup" element={<FormPage form={"signup"}/>} />
       <Route path="/list" element={
-          logged ? (
-            <MarvelList/>
-          ) : (
-            <Navigate replace to="/signin" />
-          )
-        } />
+        <ProtectedRoute logged={logged}>
+          <MarvelList/>
+        </ProtectedRoute>
+      } />
       <Route path="/list/:characterId" element={
-          logged ? (
-            <SingleMarvel/>
-          ) : (
-            <Navigate replace to="/signin" />
-          )
-        } />
+        <ProtectedRoute logged={logged}>
+          <SingleMarvel/>
+        </ProtectedRoute>
+      } />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

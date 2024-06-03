@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { auth } from "../../services/firebase";
 import { FirebaseError } from 'firebase/app';
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ISignUp } from "./types";
 import Input from "./Input/Input";
 
@@ -10,7 +12,10 @@ const SignUp: React.FC<ISignUp> = ({ emailSignUp, passwordSignUp, setEmailSignUp
 
   const handleRegister = async () => {
     try {
+      await createUserWithEmailAndPassword(auth, emailSignUp, passwordSignUp);
       setMessage("User registered successfully!");
+      setEmailSignUp("");
+      setPasswordSignUp("");
 
     } catch (error) {
       if (error instanceof FirebaseError) {

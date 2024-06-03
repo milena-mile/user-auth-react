@@ -8,7 +8,8 @@ import Loading from "../components/Loading/Loading";
 import MarvelListItem from "../components/Marvel/MarvelListItem/MarvelListItem";
 import LogOut from "../components/LogOut/LogOut";
 
-const APIkey = "apikey=fc65849a30741fefecd10fe2a23f336a";
+const APIkey = import.meta.env.VITE_LIST_API_KEY;
+const APIurl = import.meta.env.VITE_MARVEL_API_URL;
 
 const MarvelList = () => {
     const [marvel, setMarvel] = useState<NetworkState>({state: "loading"});
@@ -35,7 +36,7 @@ const MarvelList = () => {
         }
 
         async function getData() {
-            requestAPI(`https://gateway.marvel.com:443/v1/public/characters?limit=20&offset=${offset}&${APIkey}`)
+            requestAPI(`${APIurl}/v1/public/characters?limit=20&offset=${offset}&apikey=${APIkey}`)
                 .then(data => {
                     const successData = data as NetworkSuccessState;
                     setMarvel(successData);

@@ -1,14 +1,13 @@
-
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../services/firebase";
 import { FirebaseError } from 'firebase/app';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useLogInContext } from "../../context/logInContext";
+import { handleAuthOnload, handleRememberMe } from "../../services/rememberMe";
 import { ILogIn } from "./types";
 import Input from "./Input/Input";
 import ResetPassword from "./ResetPassword";
-
 
 const LogIn: React.FC<ILogIn> = ({ emailLogIn, passwordLogIn, setEmailLogIn, setPasswordLogIn }) => {
     const {setLogged} = useLogInContext();
@@ -20,26 +19,35 @@ const LogIn: React.FC<ILogIn> = ({ emailLogIn, passwordLogIn, setEmailLogIn, set
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        handleAuthOnload(autoLogin);
+    }, [])
+
+    const autoLogin = () => {
+        navigate("/list");
+    }
+
     const handleLogin = async (event: FormEvent) => {
         event.preventDefault();
 
         try {
-            await signInWithEmailAndPassword(auth, emailLogIn, passwordLogIn);
-            setMessage("Logged in successfully!");
-            setLogged(true);
+            const userCredential = await signInWithEmailAndPassword(auth, emailLogIn, passwordLogIn);
+            handleRememberMe(userCredential.user.uid, emailLogIn, rememberMe);
 
-            localStorage.setItem('logged', 'true');
+            setMessage("Logged in successfully!");
             navigate("/list");
+            setLogged(true);
+            localStorage.setItem('logged', 'true');
 
         } catch(error) {
             if (error instanceof FirebaseError) {
-                if (error.code === 'auth/invalid-email') {
-                  setMessage("Invalid email");
+                if (error.code === 'auth/invalid-email' || error.code === "auth/invalid-credential") {
+                    setMessage("Invalid credential");
                 } else {
-                  setMessage(`Error: ${error.message}`);
+                    setMessage(`Error: ${error.message}`);
                 }
               } else {
-                setMessage("Unknown error occurred");
+                    setMessage("Unknown error occurred");
               }
         }
     }

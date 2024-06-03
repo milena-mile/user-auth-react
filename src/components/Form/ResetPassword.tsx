@@ -6,6 +6,7 @@ import Input from "./Input/Input";
 const ResetPassword = (props: {setReset: React.Dispatch<React.SetStateAction<boolean>>}) => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState("");
+    const [disable, setDisable] = useState(false);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -13,6 +14,7 @@ const ResetPassword = (props: {setReset: React.Dispatch<React.SetStateAction<boo
         try {
           await sendPasswordResetEmail(auth, email);
           setMessage("Reset send");
+          setDisable(true);
         
         } catch (error) {
             console.log(error);
@@ -29,10 +31,10 @@ const ResetPassword = (props: {setReset: React.Dispatch<React.SetStateAction<boo
                         label={"Email"}
                         type={"email"}
                         value={email}
-                        name={"reset-email"}
+                        name={"reset"}
                         onChange={(e) => setEmail(e.target.value)}
                         required />
-                    <button type="submit" className="b-button">Send Reset Email</button>
+                    <button type="submit" className="b-button" disabled={disable}>Send Reset Email</button>
                     {message !== "" && <span className="b-reset_message">{message}</span>}
                 </form>
             </div>
