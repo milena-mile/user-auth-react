@@ -7,7 +7,8 @@ import Error from "../components/Error/Error";
 import Loading from "../components/Loading/Loading";
 import NotFound from "../components/NotFound/NotFound";
 
-const APIkey = "apikey=fc65849a30741fefecd10fe2a23f336a";
+const APIkey = import.meta.env.VITE_SINGLE_API_KEY;
+const APIurl = import.meta.env.VITE_MARVEL_API_URL;
 
 const SingleBook = () => {
     const id = useParams();
@@ -16,7 +17,7 @@ const SingleBook = () => {
 
     useEffect(() => {
         async function getData() {
-            requestAPI(`https://gateway.marvel.com:443/v1/public/characters/${id.characterId}?${APIkey}`)
+            requestAPI(`${APIurl}/v1/public/characters/${id.characterId}?apikey=${APIkey}`)
                 .then(data => {
                     const successData = data as NetworkSuccessState;
                     setMarvel(successData);
