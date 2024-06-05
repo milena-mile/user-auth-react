@@ -1,8 +1,6 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, firestore } from "./firebase";
 import { deleteDoc, getDoc, setDoc, doc } from "firebase/firestore";
-import { useLogInContext } from "../context/logInContext";
-
 
 const handleRememberMe = async (id: string, email: string, rememberMe: boolean) => {
     if (rememberMe) {
