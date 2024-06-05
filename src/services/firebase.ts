@@ -3,9 +3,9 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB3E7_jh1Nb8d9_YYFRwLLG5Hj2a-92gn8",
-  authDomain: "tranquil-marker-240716.firebaseapp.com",
-  databaseURL: "https://tranquil-marker-240716-default-rtdb.europe-west1.firebasedatabase.app",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
   projectId: "tranquil-marker-240716",
   storageBucket: "tranquil-marker-240716.appspot.com",
   messagingSenderId: "183721488926",
