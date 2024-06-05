@@ -15,14 +15,12 @@ function App() {
       <Route path="/" element={<Navigate to="/signin" />} />
       <Route path="/signin" element={<FormPage form={"login"}/>} />
       <Route path="/signup" element={<FormPage form={"signup"}/>} />
-      <Route path="/list" element={
+      <Route path="/list/*" element={
         <ProtectedRoute logged={logged}>
-          <MarvelList/>
-        </ProtectedRoute>
-      } />
-      <Route path="/list/:characterId" element={
-        <ProtectedRoute logged={logged}>
-          <SingleMarvel/>
+          <Routes>
+            <Route path="/" element={<MarvelList />} />
+            <Route path=":characterId" element={<SingleMarvel />} />
+          </Routes>
         </ProtectedRoute>
       } />
       <Route path="*" element={<NotFound />} />
